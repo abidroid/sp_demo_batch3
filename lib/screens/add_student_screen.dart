@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sp_demo_batch3/db/db_helper.dart';
 import 'package:sp_demo_batch3/model/student.dart';
+import 'package:sp_demo_batch3/screens/student_list_screen.dart';
 
 class AddStudentScreen extends StatefulWidget {
   const AddStudentScreen({super.key});
@@ -97,7 +98,12 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                     //DbHelper().saveStudent(s);
                   },
                   child: const Text('Save')),
-              ElevatedButton(onPressed: () {}, child: const Text('Show All')),
+              ElevatedButton(onPressed: () {
+
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  return StudentListScreen();
+                }));
+              }, child: const Text('Show All')),
             ],
           ),
         ),
