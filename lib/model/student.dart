@@ -15,13 +15,24 @@ class Student {
     required this.feePaid,
   });
 
-  Map<String, dynamic> toMap() {
+  // converts map to object
+  factory Student.fromMap(Map<String, dynamic> map) {
+    return Student(
+      name: map['name'],
+      course: map['course'],
+      mobile: map['mobile'],
+      totalFee: map['totalFee'],
+      feePaid: map['feePaid'],
+    );
+  }
 
+  // converts object to map
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
       'course': course,
-      'mobile':mobile,
+      'mobile': mobile,
       'totalFee': totalFee,
       'feePaid': feePaid,
     };

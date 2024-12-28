@@ -69,4 +69,26 @@ class DatabaseHelper {
     int result = await db.insert('tbl_student', s.toMap());
     return result;
   }
+
+  Future<List<Student>> getAllStudents() async {
+    Database db = await this.database;
+
+    List<Map<String, dynamic>>  listOfStudentMaps = await db.rawQuery("SELECT * from tbl_student");
+
+    List<Student> students = [];
+    // logic to convert student map to student object
+
+    for( var map in listOfStudentMaps){
+
+      Student s = Student.fromMap(map);
+
+      students.add(s);
+    }
+
+    print(students.length);
+    print(students[3].name);
+    return students;
+  }
+
+
 }
