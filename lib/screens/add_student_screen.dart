@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sp_demo_batch3/db/db_helper.dart';
 import 'package:sp_demo_batch3/model/student.dart';
 import 'package:sp_demo_batch3/screens/student_list_screen.dart';
@@ -69,16 +70,17 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 ),
               ),
               ElevatedButton(
-                  onPressed: () {
-                    String name = nameC.text.trim();
+                  onPressed: () async {
+                    String? name = nameC.text.trim();
                     String course = courseC.text.trim();
                     String mobile = mobileC.text.trim();
                     String totalFee = totalFeeC.text.trim();
                     String feePaid = feePaidC.text.trim();
 
-                    // validation
+                    // front end validation
                     if( name.isEmpty){
                       print('Please provide name');
+                      Fluttertoast.showToast(msg: "Name required");
                       return;
                     }
 
@@ -95,8 +97,15 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                     // DBHelper
                     // function saveStudent
 
-                    //DbHelper().saveStudent(s);
-                  },
+                    int result = await DatabaseHelper.instance.saveStudent(s);
+
+                    if( result > 0 ){
+                      Fluttertoast.showToast(msg: 'Saved');
+                    }else{
+                      Fluttertoast.showToast(msg: 'Failed');
+                    }
+
+                    },
                   child: const Text('Save')),
               ElevatedButton(onPressed: () {
 
