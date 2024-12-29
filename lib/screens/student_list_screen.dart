@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sp_demo_batch3/db/db_helper.dart';
 import 'package:sp_demo_batch3/model/student.dart';
 
@@ -33,6 +34,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
                         child: Column(
                           spacing: 10,
                           children: [
+                            Text(students[index].id.toString()),
                             Text(students[index].name),
                             Text(students[index].course),
                             Text(students[index].mobile),
@@ -41,7 +43,49 @@ class _StudentListScreenState extends State<StudentListScreen> {
                             Row(
                               spacing: 10,
                               children: [
-                                Expanded(child: ElevatedButton(onPressed: (){}, child: const Text('Delete'))),
+                                Expanded(child: ElevatedButton(onPressed: (){
+                                  // alert dialog
+
+                                  showDialog(context: context, builder: (context){
+                                    return AlertDialog(
+                                      title: Text('Confirmation!!!'),
+                                      content: Row(
+                                        spacing: 10,
+                                        children: [
+                                          Icon(Icons.delete, color: Colors.red,),
+                                          Text('Are you sure to delete ?'),
+                                        ],
+                                      ),
+
+                                      actions: [
+                                        TextButton(onPressed: (){
+                                          Navigator.pop(context);
+                                        }, child: const Text('No')),
+                                        TextButton(onPressed: () async {
+                                          Navigator.pop(context);
+
+                                          // delete logic here
+
+                                          int result = await DatabaseHelper.instance.deleteStudent(students[index]);
+
+                                          if( result > 0){
+                                            Fluttertoast.showToast(msg: 'Deleted');
+                                            setState(() {
+
+                                            });
+                                          }
+                                          else{
+                                            Fluttertoast.showToast(msg: 'Failed');
+                                          }
+
+                                        }, child: const Text('Yes')),
+
+                                      ],
+
+                                    );
+                                  });
+
+                                }, child: const Text('Delete'))),
                                 Expanded(child: ElevatedButton(onPressed: (){}, child: const Text('Update')))
                               ],
                             )

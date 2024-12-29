@@ -90,5 +90,14 @@ class DatabaseHelper {
     return students;
   }
 
+  Future<int> deleteStudent(Student s) async {
+
+    Database db = await this.database;
+
+    int result = await db.rawDelete("DELETE from tbl_student where id=?", [s.id] );
+
+    return result;
+  }
+
 
 }
