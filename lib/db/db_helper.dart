@@ -85,7 +85,7 @@ class DatabaseHelper {
       students.add(s);
     }
 
-    await Future.delayed(Duration(seconds: 2));
+    // await Future.delayed(Duration(seconds: 2));
 
     return students;
   }
@@ -99,5 +99,14 @@ class DatabaseHelper {
     return result;
   }
 
+  // update record
+  Future<int> updateStudent(Student s) async {
+
+    Database db = await this.database;
+
+    int result = await db.update('tbl_student', s.toMap(), where: "id=?", whereArgs: [s.id]);
+
+    return result;
+  }
 
 }

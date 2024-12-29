@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sp_demo_batch3/db/db_helper.dart';
 import 'package:sp_demo_batch3/model/student.dart';
+import 'package:sp_demo_batch3/screens/update_student_screen.dart';
 
 class StudentListScreen extends StatefulWidget {
   const StudentListScreen({super.key});
@@ -86,7 +87,19 @@ class _StudentListScreenState extends State<StudentListScreen> {
                                   });
 
                                 }, child: const Text('Delete'))),
-                                Expanded(child: ElevatedButton(onPressed: (){}, child: const Text('Update')))
+                                Expanded(child: ElevatedButton(onPressed: () async{
+
+                                  bool? updated = await Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                    return UpdateStudentScreen(student: students[index],);
+                                  }));
+
+                                  if( updated != null && updated){
+                                    setState(() {
+
+                                    });
+                                  }
+
+                                }, child: const Text('Update')))
                               ],
                             )
                           ],

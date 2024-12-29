@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sp_demo_batch3/db/db_helper.dart';
 import 'package:sp_demo_batch3/model/student.dart';
 
 class UpdateStudentScreen extends StatefulWidget {
-  const UpdateStudentScreen({super.key});
+  final Student student;
+  const UpdateStudentScreen({super.key, required this.student});
 
   @override
   State<UpdateStudentScreen> createState() => _UpdateStudentScreenState();
@@ -15,6 +18,15 @@ class _UpdateStudentScreenState extends State<UpdateStudentScreen> {
   var totalFeeC = TextEditingController();
   var feePaidC = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    nameC.text = widget.student.name;
+    courseC.text = widget.student.course;
+    mobileC.text = widget.student.mobile;
+    totalFeeC.text = widget.student.totalFee.toString();
+    feePaidC.text = widget.student.feePaid.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +80,7 @@ class _UpdateStudentScreenState extends State<UpdateStudentScreen> {
                 ),
               ),
               ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     String name = nameC.text.trim();
                     String course = courseC.text.trim();
                     String mobile = mobileC.text.trim();
@@ -84,6 +96,7 @@ class _UpdateStudentScreenState extends State<UpdateStudentScreen> {
                     // DB ka kaam yaha nahe karengay
 
                     Student s = Student(
+                      id: widget.student.id,
                       name: name,
                       course: course,
                       mobile: mobile,
@@ -92,9 +105,17 @@ class _UpdateStudentScreenState extends State<UpdateStudentScreen> {
                     );
 
                     // DBHelper
-                    // function saveStudent
+                    // function update
 
-                    //DbHelper().saveStudent(s);
+                    int result = await DatabaseHelper.instance.updateStudent(s);
+
+                    if( result > 0){
+                      Fluttertoast.showToast(msg: 'Updated');
+                      Navigator.of(context).pop(true);
+                    }
+                    else{
+                      Fluttertoast.showToast(msg: 'Failed');
+                    }
                   },
                   child: const Text('Update')),
 
