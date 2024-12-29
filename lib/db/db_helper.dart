@@ -45,9 +45,9 @@ class DatabaseHelper {
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   name TEXT NOT NULL,
                   course TEXT,
-                  mobile TEXT UNIQUE NOT NULL,
+                  mobile TEXT,
                   totalFee INTEGER,
-                  feePaid INTEGER,
+                  feePaid INTEGER
                    );
         ''');
   }
@@ -85,8 +85,8 @@ class DatabaseHelper {
       students.add(s);
     }
 
-    print(students.length);
-    print(students[3].name);
+    await Future.delayed(Duration(seconds: 2));
+
     return students;
   }
 
